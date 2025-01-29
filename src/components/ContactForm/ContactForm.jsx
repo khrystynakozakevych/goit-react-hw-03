@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-// import { Formik, Field, Form } from "formik";
+import { Formik, Field, Form } from "formik";
 import css from "./ContactForm.module.css";
 
 const ContactForm = ({ onAdd }) => {
@@ -15,22 +15,22 @@ const ContactForm = ({ onAdd }) => {
   };
   return (
     <div className={css.form_container}>
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
         <input type="text" name="name" />
         <input type="number" name="number" />
         <button className={css.form_btn} type="submit">
           Add contact
         </button>
-      </form>
-      {/* <Formik>
-        <Form onSubmit={handleSubmit}>
-          <Field name="name" />
-          <Field name="number" />
+      </form> */}
+      <Formik onSubmit={handleSubmit} initialValues={{ name: "", number: "" }}>
+        <Form>
+          <Field className={css.input} name="name" />
+          <Field className={css.input} name="number" />
           <button className={css.form_btn} type="submit">
             Add contact
           </button>
         </Form>
-      </Formik> */}
+      </Formik>
     </div>
   );
 };

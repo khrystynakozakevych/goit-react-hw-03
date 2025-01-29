@@ -7,19 +7,32 @@ import SearchBox from "./components/SearchBox/SearchBox";
 import initialData from "./assets/contactData.json";
 
 function App() {
-  const [contact, setContact] = useState(initialData);
+  const [contacts, setContacts] = useState(initialData);
+  const [filter, setFilter] = useState("");
+
   const addContact = (newContact) => {
-    setContact((prevContacts) => {
+    setContacts((prevContacts) => {
       return [...prevContacts, newContact];
     });
     console.log(newContact);
   };
+
+  const deleteContact = (contactId) => {
+    setContacts((prevContacts) => {
+      prevContacts.filter((contact) => contact.id !== contactId);
+    });
+  };
+
+  const visibleContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
+
   return (
     <div>
       <h1>Phonebook</h1>
       <ContactForm onAdd={addContact} />
-      <SearchBox />
-      <ContactList contact={contact} />
+      <SearchBox value={filter} onFilter={setFilter} />
+      <ContactList contacts={visibleContacts} onDelete={deleteContact} />
     </div>
   );
 }
