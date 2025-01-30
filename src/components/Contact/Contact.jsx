@@ -1,5 +1,5 @@
 import css from "./Contact.module.css";
-const Contact = ({ name, number, id, onDelete }) => {
+const Contact = ({ contact: { name, number, id }, onDelete }) => {
   return (
     <div className={css.contact_container}>
       <div>

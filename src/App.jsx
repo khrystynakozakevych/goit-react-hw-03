@@ -18,13 +18,15 @@ function App() {
   };
 
   const deleteContact = (contactId) => {
-    setContacts((prevContacts) => {
-      prevContacts.filter((contact) => contact.id !== contactId);
-    });
+    setContacts((prevContacts) =>
+      prevContacts.filter((contact) => contact.id !== contactId)
+    );
   };
 
-  const visibleContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
+  const visibleContacts = contacts.filter(
+    (contact) =>
+      contact.name.toLowerCase().includes(filter.toLowerCase()) ||
+      contact.number.includes(filter)
   );
 
   return (

@@ -5,9 +5,9 @@ const ContactList = ({ contacts, onDelete }) => {
   return (
     <div className={css.contacts_wrapper}>
       <ul className={css.contacts_list}>
-        {contacts.map(({ id, name, number }) => (
-          <li key={id}>
-            <Contact name={name} number={number} onDelete={onDelete} />
+        {contacts.map((contact) => (
+          <li key={contact.id}>
+            <Contact contact={contact} onDelete={onDelete} />
           </li>
         ))}
       </ul>

@@ -1,31 +1,59 @@
 import { nanoid } from "nanoid";
-import { Formik, Field, Form } from "formik";
+import { ErrorMessage, Formik, Field, Form } from "formik";
 import css from "./ContactForm.module.css";
+import * as Yup from "yup";
 
 const ContactForm = ({ onAdd }) => {
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
-    evt.target.reset();
+  const handleSubmit = (values, actions) => {
+    console.log(values);
+    actions.resetForm();
     onAdd({
-      name: evt.target.elements.name.value,
-      number: evt.target.elements.number.value,
+      ...values,
       id: nanoid(),
     });
-    console.log();
   };
+
+  const onlyLetters = /^[A-Za-zА-Яа-яЄєІіЇїҐґ-\s]+$/;
+  const regExp = /^\d{3}-\d{2}-\d{2}$/;
+
+  const applySchema = Yup.object().shape({
+    name: Yup.string()
+      .required("Please enter the name")
+      .min(3, "Min 3 characters!")
+      .max(20, "Max 20 characters!")
+      .matches(onlyLetters, "Only letters!"),
+    number: Yup.string()
+      .required("Please enter the phon number")
+      .matches(regExp, "Invalid format"),
+  });
   return (
     <div className={css.form_container}>
-      {/* <form onSubmit={handleSubmit}>
-        <input type="text" name="name" />
-        <input type="number" name="number" />
-        <button className={css.form_btn} type="submit">
-          Add contact
-        </button>
-      </form> */}
-      <Formik onSubmit={handleSubmit} initialValues={{ name: "", number: "" }}>
+      <Formik
+        onSubmit={handleSubmit}
+        initialValues={{ name: "", number: "" }}
+        validationSchema={applySchema}
+      >
         <Form>
-          <Field className={css.input} name="name" />
-          <Field className={css.input} name="number" />
+          <div className={css.wrapper}>
+            <Field
+              className={css.input}
+              name="name"
+              placeholder="Name Surname"
+            />
+            <ErrorMessage className={css.error} component="span" name="name" />
+          </div>
+          <div className={css.wrapper}>
+            <Field
+              className={css.input}
+              name="number"
+              placeholder="XXX-XX-XX"
+            />
+            <ErrorMessage
+              className={css.error}
+              component="span"
+              name="number"
+            />
+          </div>
           <button className={css.form_btn} type="submit">
             Add contact
           </button>
