@@ -20,7 +20,7 @@ const ContactForm = ({ onAdd }) => {
     name: Yup.string()
       .required("Please enter the name")
       .min(3, "Min 3 characters!")
-      .max(20, "Max 20 characters!")
+      .max(50, "Max 50 characters!")
       .matches(onlyLetters, "Only letters!"),
     number: Yup.string()
       .required("Please enter the phon number")
